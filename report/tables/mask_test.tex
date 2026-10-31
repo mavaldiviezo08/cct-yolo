@@ -1,0 +1,14 @@
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Test de enmascarado: el animal se borra por inpainting; \% persiste = la misma especie sigue detectada con score $\geq$ 0.47.}
+\label{tab:masktest}
+\begin{tabular}{lrrrr}
+\toprule
+partición & n & score original & score sin animal & \% persiste \\
+\midrule
+cis\_test & 400 & 0.75 & 0.15 & 16.25 \\
+trans\_test & 400 & 0.70 & 0.09 & 9.00 \\
+\bottomrule
+\end{tabular}
+\end{table}

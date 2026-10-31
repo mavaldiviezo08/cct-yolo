@@ -1,0 +1,15 @@
+data/
+data_smoke/
+runs/
+runs_smoke/
+results/
+results_smoke/
+*.pt
+__pycache__/
+report/*.aux
+report/*.log
+report/*.bbl
+report/*.blg
+report/*.out
+report/*.fdb_latexmk
+report/*.fls

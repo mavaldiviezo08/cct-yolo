@@ -1,0 +1,26 @@
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Robustez por tamaño relativo de la caja y nivel de oclusión (recall al umbral operativo 0.47, IoU 0.5).}
+\label{tab:robustness}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrrrr}
+\toprule
+partición & factor & grupo & cajas & mAP50 & mAP50:95 & recall & caída mAP50 \\
+\midrule
+cis & tamaño & pequeño & 1149 & 0.285 & 0.117 & 0.605 & 0.488 \\
+cis & tamaño & mediano & 10494 & 0.773 & 0.497 & 0.857 & 0.000 \\
+cis & tamaño & grande & 1621 & 0.489 & 0.373 & 0.856 & 0.284 \\
+cis & oclusión (proxy) & bajo & 4421 & 0.641 & 0.390 & 0.836 & 0.026 \\
+cis & oclusión (proxy) & medio & 4421 & 0.604 & 0.366 & 0.853 & 0.063 \\
+cis & oclusión (proxy) & alto & 4422 & 0.667 & 0.415 & 0.817 & 0.000 \\
+trans & tamaño & pequeño & 1924 & 0.142 & 0.061 & 0.454 & 0.312 \\
+trans & tamaño & mediano & 14200 & 0.454 & 0.279 & 0.746 & 0.000 \\
+trans & tamaño & grande & 2662 & 0.202 & 0.174 & 0.552 & 0.252 \\
+trans & oclusión (proxy) & bajo & 6262 & 0.363 & 0.214 & 0.826 & 0.071 \\
+trans & oclusión (proxy) & medio & 6262 & 0.433 & 0.258 & 0.719 & 0.000 \\
+trans & oclusión (proxy) & alto & 6262 & 0.274 & 0.182 & 0.522 & 0.159 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

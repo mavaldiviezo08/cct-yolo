@@ -1,0 +1,93 @@
+# Configuración central del proyecto (Pregunta 3 — CCT-20 + YOLO)
+# Todas las rutas son relativas a la raíz del repositorio.
+
+seed: 42
+
+paths:
+  raw: data/raw                    # descarga de LILA BC (imágenes + anotaciones)
+  images: data/raw/eccv_18_all_images_sm
+  annotations: data/raw/eccv_18_annotation_files
+  yolo: data/yolo                  # dataset convertido a formato YOLO
+  runs: runs                       # pesos y logs de entrenamiento
+  results: results                 # métricas, CSV, figuras intermedias
+  report_tables: report/tables     # tablas LaTeX autogeneradas
+  report_figures: report/figures   # figuras para el informe
+
+download:
+  images_url: https://storage.googleapis.com/public-datasets-lila/caltechcameratraps/eccv_18_all_images_sm.tar.gz
+  annotations_url: https://storage.googleapis.com/public-datasets-lila/caltechcameratraps/eccv_18_annotations.tar.gz
+
+# Particiones CCT-20 (Beery et al., ECCV 2018).
+#   eccv_train (LILA) = train + cis_*  (ubicaciones vistas)
+#   eccv_val   (LILA) = trans_*        (ubicaciones nunca vistas)
+splits:
+  train: train_annotations.json
+  cis_val: cis_val_annotations.json      # selección de modelo / umbral
+  cis_test: cis_test_annotations.json    # evaluación en ubicaciones vistas
+  trans_val: trans_val_annotations.json  # reservado (no se usa para elegir nada)
+  trans_test: trans_test_annotations.json  # evaluación en ubicaciones nuevas
+
+data:
+  empty_category: empty
+  # Fracción de imágenes vacías (fondo) que se añaden al entrenamiento, relativa
+  # al número de imágenes con animal. Ultralytics recomienda 0–10 %.
+  background_fraction: 0.10
+  # Repeat Factor Sampling (Gupta et al., LVIS 2019): r_c = max(1, sqrt(t / f_c))
+  rfs_threshold: 0.10
+  # Para validación durante el entrenamiento se usa un submuestreo de cis_val
+  max_val_images: 1500
+  max_test_images: null            # null = todas; útil reducir en Colab
+
+train:
+  model: yolov8s.pt                # backbone preentrenado COCO
+  imgsz: 640
+  epochs: 30
+  batch: 16
+  patience: 10
+  workers: 4
+  device: null                     # null = auto (GPU si existe)
+  # Aumento de datos (documentado en el informe)
+  augment:
+    hsv_h: 0.015
+    hsv_s: 0.5
+    hsv_v: 0.4                     # cámaras IR nocturnas: variación de brillo
+    degrees: 0.0                   # las cámaras están fijas: sin rotación
+    translate: 0.1
+    scale: 0.5
+    fliplr: 0.5
+    flipud: 0.0                    # los animales no aparecen de cabeza
+    mosaic: 1.0
+    mixup: 0.0
+    close_mosaic: 5
+
+# Experimentos de ablación (cada uno = un entrenamiento)
+experiments:
+  baseline:   {background_fraction: 0.10, rfs: false}
+  rfs:        {background_fraction: 0.10, rfs: true}
+  no_bg:      {background_fraction: 0.00, rfs: false}
+
+eval:
+  conf_threshold: 0.001            # para mAP (curva completa)
+  iou_nms: 0.6
+  # Umbral operativo de "foto con fauna" (se ajusta en cis_val)
+  operating_conf: 0.25
+
+robustness:
+  # Tamaño relativo = área bbox / área imagen
+  size_bins: [0.0, 0.01, 0.10, 1.0]
+  size_labels: [pequeño, mediano, grande]
+  occlusion_labels: [bajo, medio, alto]
+  manual_sample: 300               # cajas para anotación manual de oclusión
+
+gradcam:
+  layer: 6                         # índice de capa del backbone YOLOv8 (C2f, stride 16)
+  n_examples: 12
+  n_mask_test: 400                 # imágenes para el test de enmascarado del animal
+
+monitor:
+  conf_default: 0.35
+  conf_per_class: {}               # p.ej. {bobcat: 0.20} para especies prioritarias
+  seq_gap_seconds: 60              # si no hay seq_id, agrupa fotos con < 60 s
+  independence_minutes: 30         # criterio de independencia de eventos
+  period: W                        # agregación temporal: D, W, M
+  night_hours: [19, 6]             # [inicio, fin) de la noche

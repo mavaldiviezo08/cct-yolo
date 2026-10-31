@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Grad-CAM: fracción de la energía del mapa dentro de la caja GT (concentración = energía / área relativa; 1 = uniforme).}
+\label{tab:gradcam}
+\begin{tabular}{lrrrrr}
+\toprule
+partición & acierto & n & energía en caja & área relativa & concentración \\
+\midrule
+cis\_test & no & 61 & 0.098 & 0.065 & 0.973 \\
+cis\_test & sí & 339 & 0.108 & 0.107 & 0.689 \\
+trans\_test & no & 125 & 0.145 & 0.122 & 0.923 \\
+trans\_test & sí & 275 & 0.114 & 0.116 & 0.674 \\
+\bottomrule
+\end{tabular}
+\end{table}

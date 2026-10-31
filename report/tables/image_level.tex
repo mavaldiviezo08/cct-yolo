@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Filtrado de fotos vacías a nivel de imagen con umbral 0.475 (elegido en cis\_val maximizando F1).}
+\label{tab:imagelevel}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+partición & umbral & precisión & recall & F1 & FP en vacías & AUC \\
+\midrule
+cis\_test & 0.475 & 0.994 & 0.919 & 0.955 & 0.064 & 0.970 \\
+trans\_test & 0.475 & 0.989 & 0.847 & 0.912 & 0.096 & 0.929 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
