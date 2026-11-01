@@ -321,9 +321,9 @@ especies frecuentes se estiman bien, pero la lista de especies y la abundancia d
 confiables sin revisión humana, lo que favorece usar el detector como apoyo y validarlo localmente antes
 de desplegarlo en un sitio nuevo.
 
-\paragraph{Reproducibilidad.} Código: \pendiente{URL del repositorio}. Todo el pipeline (descarga,
+\paragraph{Reproducibilidad.} Código: \url{https://github.com/mavaldiviezo08/cct-yolo}. Todo el pipeline (descarga,
 preparación, entrenamiento, evaluación, figuras y tablas de este informe) se ejecuta con
-\texttt{bash run\_all.sh}; \texttt{bash run\_all.sh --smoke} verifica el pipeline en minutos con datos sintéticos.
+\texttt{bash run\_all.sh} sobre las imágenes reales de CCT-20. Además, \texttt{bash run\_all.sh -{}-smoke} es una prueba rápida del código (unos minutos, sin GPU ni descarga) con imágenes de prueba generadas; no se usa para ningún resultado de este informe.
 
 {\small\setlength{\bibsep}{2pt}
 \bibliographystyle{plainnat}
